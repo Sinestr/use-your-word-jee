@@ -12,5 +12,5 @@ public interface IUserPlayGameRepository extends JpaRepository<UserPlayGame, Int
 	@Query(
 	  value = "SELECT * FROM play p ORDER BY p.PLAY_SCORE DESC LIMIT 10", 
 	  nativeQuery = true)
-	List<UserPlayGame> findTopScores();
+	public List<UserPlayGame> findTopScores();
 }

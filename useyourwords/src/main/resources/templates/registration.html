@@ -20,15 +20,27 @@
 		  <h1 class="h3 mb-3 font-weight-normal">Inscription</h1>
 		  
 		  <label for="pseudo" class="sr-only">Pseudo</label>
-		  <input type="text" id="pseudo" class="form-control" placeholder="Pseudo" required autofocus="">
+		  <input type="text" id="pseudo" name="pseudo" class="form-control" placeholder="Pseudo" required autofocus="">
 		  
 		  <label for="login" class="sr-only">Login</label>
-		  <input type="text" id="login" class="form-control" placeholder="Login" required>
+		  <input type="text" id="login" name="login" class="form-control" placeholder="Login" required>
 		  
 		  <label for="password" class="sr-only">Mot de Passe</label>
-		  <input type="password" id="password" class="form-control" placeholder="Mot de Passe" required>
+		  <input type="password" id="password" name="password" class="form-control" placeholder="Mot de Passe" required>
 		  
 		  <button class="btn btn-lg btn-primary btn-block" type="submit">S'INSCRIRE</button>
+		  
+		  <div th:if="${param.success != null}" class="alert alert-success mt-4" role="alert"> 
+		  	Votre compte a été créé avec succès ! 
+		  </div>
+		  
+		  <div th:if="${param.loginexist != null}" class="alert alert-danger mt-4" role="alert"> 
+		  	Compte déjà existant, veuillez changer de login ! 
+		  </div>
+		  
+		  <div th:if="${param.error != null}" class="alert alert-danger mt-4" role="alert"> 
+		  	Erreur lors de l'inscription, veuillez réessayer ultérieurement ! 
+		  </div>
 		  
 		  <p class="mt-5 mb-3 text-muted">par Adam PLET & Tangi GREFFIER</p>
 		</form>

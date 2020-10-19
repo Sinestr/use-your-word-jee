@@ -28,11 +28,23 @@ public class User {
 	@Column(name = "USER_PSEUDO", length = 100)
 	private String pseudo;
 	
-	@Column(name = "USER_ADMIN")
+	@Column(name = "USER_ADMIN", columnDefinition = "boolean default false")
 	private boolean admin;
 	
 	@OneToMany(mappedBy = "user")
     private List<UserPlayGame> user;
+	
+	/*
+	 * CONSTRUCTS
+	 */
+	public User() {}
+	
+	public User(String pseudo, String login, String password, boolean admin) {
+		this.pseudo = pseudo;
+		this.login = login;
+		this.password = password;
+		this.admin = admin;
+	}
 	
 	/*
 	 * GETTERs AND SETTERS
