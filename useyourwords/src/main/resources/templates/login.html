@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="ISO-8859-1">
+		<meta charset="utf-8">
+		<title>Connexion</title>
+		
+		<link th:href="@{/css/signin.css}" rel="stylesheet">
+		<link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+		<link th:href="@{/css/bootstrap-reboot.min.css}" rel="stylesheet">
+		<link th:href="@{/css/bootstrap-grid.min.css}" rel="stylesheet">
+	</head>
+	
+	<body class="text-center" cz-shortcut-listen="true">
+	    <form class="form-signin" method="post">
+		  <img class="mb-4" src="/docs/4.5/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
+		  
+		  <h1 class="h3 mb-3 font-weight-normal">Connexion</h1>
+		  
+		  <label for="login" class="sr-only">Login</label>
+		  <input type="text" id="login" class="form-control" placeholder="Login" required autofocus="">
+		  
+		  <label for="password" class="sr-only">Mot de Passe</label>
+		  <input type="password" id="password" class="form-control" placeholder="Mot de Passe" required>
+		  
+		  <button class="btn btn-lg btn-primary btn-block" type="submit">SE CONNECTER</button>
+		  
+		  <a th:href="${ /inscription }" type="submit">Pas encore de compte ? Cliquez pour vous inscrire dès maintenant !</a>
+		  
+		  <p class="mt-5 mb-3 text-muted">par Adam PLET & Tangi GREFFIER</p>
+		</form>
+	</body>
+</html>

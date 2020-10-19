@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="ISO-8859-1">
+		<meta charset="utf-8">
+		<title>Accueil</title>
+		
+		<link th:href="@{/css/signin.css}" rel="stylesheet">
+		<link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+		<link th:href="@{/css/bootstrap-reboot.min.css}" rel="stylesheet">
+		<link th:href="@{/css/bootstrap-grid.min.css}" rel="stylesheet">
+	</head>
+
+	<body class="text-center" cz-shortcut-listen="true">
+	    <form class="form-signin">
+		  <img class="mb-4" th:src="@{/images/logo-square.png}" alt="" width="150" height="150">
+
+		  <a th:href="@{ /jouer }" class="btn btn-lg btn-primary btn-block mb-2">
+		    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-play-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+			  <path d="M11.596 8.697l-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z"></path>
+			</svg>
+			JOUER
+	      </a>
+	      
+	      <a th:href="@{ /tableau-des-scores }" class="btn btn-lg btn btn-outline-secondary btn-block">
+	      	TABLEAU DES SCORES
+	      </a>
+	      
+		  <p class="mt-5 mb-3 text-muted">par Adam PLET & Tangi GREFFIER</p>
+		</form>
+	</body>
+</html>
