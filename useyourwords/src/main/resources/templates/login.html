@@ -13,7 +13,7 @@
 	
 	<body class="text-center" cz-shortcut-listen="true">
 	    <form class="form-signin" method="post">
-		  <img class="mb-4" src="/docs/4.5/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
+		  <img class="mb-4" th:src="@{/images/logo-square.png}" alt="" width="150" height="150">
 		  
 		  <h1 class="h3 mb-3 font-weight-normal">Connexion</h1>
 		  
@@ -25,7 +25,7 @@
 		  
 		  <button class="btn btn-lg btn-primary btn-block" type="submit">SE CONNECTER</button>
 		  
-		  <a th:href="${ /inscription }" type="submit">Pas encore de compte ? Cliquez pour vous inscrire dès maintenant !</a>
+		  <a th:href="@{ /registration }" type="submit">Pas encore de compte ? Cliquez pour vous inscrire dès maintenant !</a>
 		  
 		  <p class="mt-5 mb-3 text-muted">par Adam PLET & Tangi GREFFIER</p>
 		</form>
