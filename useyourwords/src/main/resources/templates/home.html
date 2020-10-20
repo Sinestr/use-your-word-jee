@@ -12,18 +12,47 @@
 	</head>
 
 	<body class="text-center" cz-shortcut-listen="true">
-	    <form class="form-signin">
-		  <img class="mb-4" th:src="@{/images/logo-square.png}" alt="" width="150" height="150">
-
-		  <a th:href="@{ /login }" class="btn btn-lg btn-primary btn-block mb-2">
-			CONNEXION
-	      </a>
-	      
-	      <a th:href="@{ /dashboard-scores }" class="btn btn-lg btn btn-outline-secondary btn-block">
-	      	TABLEAU DES SCORES
-	      </a>
-	      
-		  <p class="mt-5 mb-3 text-muted">par Adam PLET & Tangi GREFFIER</p>
-		</form>
+	   <div class="form-signin">
+	   		<div class="row mb-4">
+				<div class="col text-center"> </div>
+		      	
+		      	<div class="col">
+		      		<a th:href="@{ /home }">
+		      			<img class="rounded mx-auto d-block" th:src="@{/images/logo-square.png}" alt="logo" width="125" height="125">
+		      		</a>
+		      	</div>
+		      	
+		      	<div class="col text-center">
+		          	<form th:if="${ currentUser != null }" th:action="@{ /logout }" method="post">
+		          		<button type="submit">
+							<svg width="2em" height="2em" viewBox="0 0 16 16" class="bi bi-person-x-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+							  <path fill-rule="evenodd" d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm6.146-2.854a.5.5 0 0 1 .708 0L14 6.293l1.146-1.147a.5.5 0 0 1 .708.708L14.707 7l1.147 1.146a.5.5 0 0 1-.708.708L14 7.707l-1.146 1.147a.5.5 0 0 1-.708-.708L13.293 7l-1.147-1.146a.5.5 0 0 1 0-.708z"/>
+							</svg>
+		          		</button>
+					</form>
+		    	</div>
+			</div>	
+		    
+		 	<!-- Si un utilisateur est connecté on lui adresse un message de bienvenue -->	
+		 	<h3 th:if="${ currentUser != null }" class="">Envie de jouer [[ ${ currentUser.pseudo } ]] ?</h3>
+	
+			<a th:if="${ currentUser != null }" th:href="@{ /createroom }" class="btn btn-lg btn-primary btn-block mb-2">
+				JOUER
+		  	</a>
+	
+			<a th:if="${ currentUser == null }" th:href="@{ /login }" class="btn btn-lg btn-primary btn-block mb-2">
+				CONNEXION
+		  	</a>
+		    
+			<a th:href="@{ /dashboard-scores }" class="btn btn-lg btn btn-outline-secondary btn-block">
+				TABLEAU DES SCORES
+			</a>
+		    
+			<div th:if="${param.loginsuccess != null}" class="alert alert-success mt-4" role="alert"> 
+				Vous êtes désormais connecté ! 
+			</div>
+		    
+		 	<p class="mt-5 mb-3 text-muted">par Adam PLET & Tangi GREFFIER</p>
+		</div>
 	</body>
 </html>

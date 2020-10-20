@@ -8,6 +8,6 @@ public class AdminController {
 
 	@GetMapping("/admin-interface")
 	public String displayAdminInterface() {
-		return "admin/memu";
+		return "admin/admin-interface";
 	}
 }

@@ -2,6 +2,9 @@ package tp.jee.useyourwords.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +25,27 @@ public class UserController {
 		return "login";
 	}
 	
+	@PostMapping("/login")
+	public String login(@RequestParam String login, @RequestParam String password, HttpServletRequest request) {
+		String redirectionOption = "redirect:./home";
+		List<User> userFound = this.userService.findByLoginAndPaswword(login, password);
+		
+		if (userFound != null && userFound.size() == 1) {
+			//create new session which will store current user (logged)
+			request.getSession().setAttribute("CURRENT_USER_ID", userFound.get(0).getId());
+			redirectionOption = "redirect:/home/?loginsuccess";
+		} else {
+			redirectionOption = "redirect:./login/?loginfail";
+		}
+		return redirectionOption;
+	}
+	
+	@PostMapping("/logout")
+	public String logout(HttpServletRequest request) {
+		request.getSession().invalidate();
+		return "redirect:/home";
+	}
+	
 	@GetMapping("/registration")
 	public String registration() {
 		return "registration";
@@ -32,10 +56,10 @@ public class UserController {
 		String redirectionOption = "redirect:./registration";
 		User user = new User(pseudo, login, password, false);
 		
-		if(user != null) {
+		if (user != null) {
 			List<User> userExit = this.userService.findByLogin(user.getLogin());
 			
-			if(userExit.size() > 0) {
+			if (userExit.size() > 0) {
 				redirectionOption = "redirect:./registration/?loginexist?" + user.getLogin();
 			} else {
 				this.userService.register(user);
@@ -44,7 +68,6 @@ public class UserController {
 		} else {
 			redirectionOption = "redirect:./registration/?error";
 		}
-		
 		return redirectionOption;
 	}
 }

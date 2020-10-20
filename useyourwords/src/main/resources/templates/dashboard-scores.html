@@ -14,9 +14,7 @@
 	<body cz-shortcut-listen="true">
 		<div class="container">
 			<div class="row mb-4">
-				<div class="col text-center">
-		      		
-		      	</div>
+				<div class="col text-center"> </div>
 		      	
 		      	<div class="col">
 		      		<a th:href="@{ /home }">
@@ -25,11 +23,13 @@
 		      	</div>
 		      	
 		      	<div class="col text-center">
-			      <ul class="navbar-nav px-3">
-			        <li class="nav-item text-nowrap">
-			          <a class="nav-link" href="#">Se déconnecter</a>
-			        </li>
-			      </ul>
+		          	<form th:if="${ currentUser != null }" th:action="@{ /logout }" method="post">
+		          		<button type="submit">
+							<svg width="2em" height="2em" viewBox="0 0 16 16" class="bi bi-person-x-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+							  <path fill-rule="evenodd" d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm6.146-2.854a.5.5 0 0 1 .708 0L14 6.293l1.146-1.147a.5.5 0 0 1 .708.708L14.707 7l1.147 1.146a.5.5 0 0 1-.708.708L14 7.707l-1.146 1.147a.5.5 0 0 1-.708-.708L13.293 7l-1.147-1.146a.5.5 0 0 1 0-.708z"/>
+							</svg>
+		          		</button>
+					</form>
 		    	</div>
 			</div>
 
