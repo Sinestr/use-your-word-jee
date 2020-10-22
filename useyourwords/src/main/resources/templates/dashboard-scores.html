@@ -3,6 +3,8 @@
 	<head>
 		<meta charset="ISO-8859-1">
 		<meta charset="utf-8">
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		
 		<title>Tableau des scores</title>
 		
 		<link th:href="@{/css/signin.css}" rel="stylesheet">
@@ -14,7 +16,11 @@
 	<body cz-shortcut-listen="true">
 		<div class="container">
 			<div class="row mb-4">
-				<div class="col text-center"> </div>
+				<div class="col text-center"> 
+					<a th:href="@{ /home }">
+		      			Accueil
+		      		</a>
+				</div>
 		      	
 		      	<div class="col">
 		      		<a th:href="@{ /home }">

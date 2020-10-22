@@ -13,7 +13,9 @@
 	
 	<body class="text-center" cz-shortcut-listen="true">
 	    <form class="form-signin" method="post">
-		  <img class="mb-4" th:src="@{/images/logo-square.png}" alt="" width="150" height="150">
+    	  <a th:href="@{ /home }">
+		  	<img class="mb-4" th:src="@{/images/logo-square.png}" alt="" width="150" height="150">
+		  </a>
 		  
 		  <h1 class="h3 mb-3 font-weight-normal">Connexion</h1>
 		  
@@ -30,8 +32,10 @@
 		  </div>
 		  
 		  <a th:href="@{ /registration }" type="submit">Pas encore de compte ? Cliquez pour vous inscrire dès maintenant !</a>
+		  <br/>
+		  <a th:href="@{ /home }">Accueil</a>
 		  
-		  <p class="mt-5 mb-3 text-muted">par Adam PLET & Tangi GREFFIER</p>
+		  <p class="mt-3 mb-3 text-muted">par Adam PLET & Tangi GREFFIER</p>
 		</form>
 	</body>
 </html>

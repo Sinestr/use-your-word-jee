@@ -32,6 +32,9 @@ public class Game {
 	@Column(name="GAME_CREATED_AT")
 	private LocalDateTime created_at;
 	
+	@Column(name="GAME_STATUS")
+	private boolean status;
+	
 	@OneToMany(mappedBy = "game")
     private List<UserPlayGame> plays;
 	
@@ -40,6 +43,19 @@ public class Game {
 		joinColumns = @JoinColumn(name = "GAME_ID"), 
 		inverseJoinColumns = @JoinColumn(name = "MEDIA_ID"))
     private List<Media> gameMedia;
+	
+	/*
+	 * CONSTRUCTS
+	 */
+	public Game() {}
+	
+	public Game(String code) {
+		this.nbPlayers = 1;
+		this.code = code;
+		this.created_at = LocalDateTime.now();
+		this.status = false;
+	}
+	
 	
 	/*
 	 * GETTERs AND SETTERS
@@ -59,5 +75,8 @@ public class Game {
 	public List<UserPlayGame> getPlays() { return plays; }
 	
 	public List<Media> getGameMedia() { return gameMedia; }
+
+	public boolean isStatus() { return status; }
+	public void setStatus(boolean status) { this.status = status; }
 	
 }

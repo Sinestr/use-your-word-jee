@@ -28,6 +28,21 @@ public class UserPlayGame {
  
     @Column(name = "PLAY_SCORE", precision = 8)
     private int score;
+    
+    @Column(name = "PLAY_HOST")
+    private boolean host;
+    
+    /*
+	 * CONSTRUCTS
+	 */
+	public UserPlayGame() { }
+    
+	public UserPlayGame(User user, Game game, boolean host) {
+		this.user = user;
+		this.game = game;
+		this.score = 0;
+		this.host = host;
+	}
 
     /*
 	 * GETTERs AND SETTERS
@@ -43,4 +58,7 @@ public class UserPlayGame {
    
  	public int getScore() { return score; }
  	public void setScore(int score) { this.score = score; }
+
+	public boolean isHost() { return host; }
+	public void setHost(boolean host) { this.host = host; }
 }

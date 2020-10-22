@@ -3,6 +3,8 @@
 	<head>
 		<meta charset="ISO-8859-1">
 		<meta charset="utf-8">
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		
 		<title>Accueil</title>
 		
 		<link th:href="@{/css/signin.css}" rel="stylesheet">
@@ -35,10 +37,18 @@
 		    
 		 	<!-- Si un utilisateur est connecté on lui adresse un message de bienvenue -->	
 		 	<h3 th:if="${ currentUser != null }" class="">Envie de jouer [[ ${ currentUser.pseudo } ]] ?</h3>
-	
-			<a th:if="${ currentUser != null }" th:href="@{ /createroom }" class="btn btn-lg btn-primary btn-block mb-2">
-				JOUER
-		  	</a>
+			
+			<form th:if="${ currentUser != null }" th:action="@{ /joinGame }" method="post" class="form-inline">
+			  <div class="form-group mb-2">
+				<label for="code" class="sr-only">Code d'accès</label>
+		  		<input type="text" id="code" name="code" class="form-control" placeholder="Code" required>
+			  </div>
+			  <button type="submit" class="btn btn-primary ml-2 mb-2">REJOINDRE</button>
+			</form>
+			
+			<form th:if="${ currentUser != null }" th:action="@{ /createroom }" method="post">
+          		<button type="submit" class="btn btn-lg btn-primary btn-block mt-4 mb-4">CREER UNE PARTIE</button>
+			</form>
 	
 			<a th:if="${ currentUser == null }" th:href="@{ /login }" class="btn btn-lg btn-primary btn-block mb-2">
 				CONNEXION
@@ -48,9 +58,13 @@
 				TABLEAU DES SCORES
 			</a>
 		    
-			<div th:if="${param.loginsuccess != null}" class="alert alert-success mt-4" role="alert"> 
-				Vous êtes désormais connecté ! 
-			</div>
+		    <!-- Success messages -->
+			<div th:if="${param.loginsuccess != null}" class="alert alert-success mt-4" role="alert">Vous êtes désormais connecté !</div>
+		    <div th:if="${param.gamedeleted != null}" class="alert alert-success mt-4 mb-4" role="alert">Partie supprimée avec succès !</div>
+		    
+			<!-- Error messages -->
+			<div th:if="${param.cannotplay != null}" class="alert alert-danger mt-4 mb-4" role="alert">Impossible de jouer sans être connecté !</div>
+		    <div th:if="${param.gamenotexist != null}" class="alert alert-danger mt-4 mb-4" role="alert">La partie que vous avez essayé de rejoindre n'existe pas !</div>
 		    
 		 	<p class="mt-5 mb-3 text-muted">par Adam PLET & Tangi GREFFIER</p>
 		</div>

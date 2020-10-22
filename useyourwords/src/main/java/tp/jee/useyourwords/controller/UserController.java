@@ -21,7 +21,11 @@ public class UserController {
 	private UserService userService;
 	
 	@GetMapping("/login")
-	public String login() {
+	public String login(HttpSession session) {
+		//test if a user is already connected or not
+		if (session.getAttribute("CURRENT_USER_ID") != null) {
+			return "redirect:/home";
+		}
 		return "login";
 	}
 	
@@ -33,7 +37,12 @@ public class UserController {
 		if (userFound != null && userFound.size() == 1) {
 			//create new session which will store current user (logged)
 			request.getSession().setAttribute("CURRENT_USER_ID", userFound.get(0).getId());
-			redirectionOption = "redirect:/home/?loginsuccess";
+			//check if it's an admin or not (change redirection)
+			if(userFound.get(0).isAdmin()) {
+				redirectionOption = "redirect:/admin-interface/?loginsuccess";
+			} else {
+				redirectionOption = "redirect:/home/?loginsuccess";
+			}
 		} else {
 			redirectionOption = "redirect:./login/?loginfail";
 		}
