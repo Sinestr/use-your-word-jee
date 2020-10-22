@@ -64,19 +64,16 @@ public class UserController {
 	public String registration(@RequestParam String pseudo, @RequestParam String login, @RequestParam String password) {
 		String redirectionOption = "redirect:./registration";
 		User user = new User(pseudo, login, password, false);
+
+		List<User> userExit = this.userService.findByLogin(user.getLogin());
 		
-		if (user != null) {
-			List<User> userExit = this.userService.findByLogin(user.getLogin());
-			
-			if (userExit.size() > 0) {
-				redirectionOption = "redirect:./registration/?loginexist?" + user.getLogin();
-			} else {
-				this.userService.register(user);
-				redirectionOption = "redirect:./registration/?success";
-			}
+		if (userExit.size() > 0) {
+			redirectionOption = "redirect:./registration/?loginexist?" + user.getLogin();
 		} else {
-			redirectionOption = "redirect:./registration/?error";
+			this.userService.register(user);
+			redirectionOption = "redirect:./registration/?success";
 		}
+		
 		return redirectionOption;
 	}
 }

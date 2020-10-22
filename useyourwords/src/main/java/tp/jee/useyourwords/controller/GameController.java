@@ -129,13 +129,21 @@ public class GameController {
 	 * @return
 	 */
 	@GetMapping("/leaveroom/{id}")
-	public String leaveroom(@PathVariable int id) {
-		//on supprime dans un premier temps les joueurs inscrits dans la partie
-		this.userPlayGameService.deleteAllPlayersInGame(this.gameService.findById(id));
+	public String leaveroom(@PathVariable int id, HttpSession session) {
+		if(session.getAttribute("CURRENT_USER_ID") == null)  {
+			return "redirect:/home";
+		}
+		
+		//recuperation de l'utilisateur courant connecté
+		User currentUser = this.userService.findById((int) session.getAttribute("CURRENT_USER_ID"));
+		Game game = this.gameService.findById(id);
 		
 		//suppression de la partie
-		this.gameService.deleteGame(id);
+		this.userPlayGameService.deleteUserPlayGame(this.userPlayGameService.findByUserAndGame(currentUser, game).get(0).getPlayId());
 		
-		return "redirect:/home/?gamedeleted";
+		//on décrémente le nombre de joueurs de la partie toujours existante
+		
+		
+		return "redirect:/home/?gameleft";
 	}
 }
