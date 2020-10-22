@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="ISO-8859-1">
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<title>Ajout de text</title>
+		
+		<link th:href="@{/css/signin.css}" rel="stylesheet">
+		<link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+		<link th:href="@{/css/bootstrap-reboot.min.css}" rel="stylesheet">
+		<link th:href="@{/css/bootstrap-grid.min.css}" rel="stylesheet">
+	</head>
+
+	<body class="text-center d-flex flex-column" cz-shortcut-listen="true">
+	div class="card"  th:each="text: ${ listMediaText }">
+  			<div class="card-header">
+    			[[ ${ text.id } ]]
+  			</div>
+  			<div class="card-body">
+    			<blockquote class="blockquote mb-0">
+      				<p>[[ ${ text.content } ]]</p>
+    			</blockquote>
+  			</div>
+		</div>
+		<div class="card"  th:each="text: ${ listMediaText }">
+  			<div class="card-header">
+    			[[ ${ text.id } ]]
+  			</div>
+  			<div class="card-body">
+    			<blockquote class="blockquote mb-0">
+      				<p>[[ ${ text.content } ]]</p>
+    			</blockquote>
+  			</div>
+		</div>
+	</body>
+</html>
