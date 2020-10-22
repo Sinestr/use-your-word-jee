@@ -61,11 +61,14 @@
 		    <!-- Success messages -->
 			<div th:if="${param.loginsuccess != null}" class="alert alert-success mt-4" role="alert">Vous êtes désormais connecté !</div>
 		    <div th:if="${param.gamedeleted != null}" class="alert alert-success mt-4 mb-4" role="alert">Partie supprimée avec succès !</div>
+		    <div th:if="${param.gameleft != null}" class="alert alert-success mt-4 mb-4" role="alert"> Vous avez quitté la partie avec succès !</div>
 		    
 			<!-- Error messages -->
 			<div th:if="${param.cannotplay != null}" class="alert alert-danger mt-4 mb-4" role="alert">Impossible de jouer sans être connecté !</div>
 		    <div th:if="${param.gamenotexist != null}" class="alert alert-danger mt-4 mb-4" role="alert">La partie que vous avez essayé de rejoindre n'existe pas !</div>
-		    
+		    <div th:if="${param.gameaccessdenied != null}" class="alert alert-danger mt-4 mb-4" role="alert">Vous n'avez pas accès à la partie !</div>
+		    <div th:if="${param.gamealreadystarted != null}" class="alert alert-danger mt-4 mb-4" role="alert">La partie est en cours ou est terminée !</div>
+
 		 	<p class="mt-5 mb-3 text-muted">par Adam PLET & Tangi GREFFIER</p>
 		</div>
 	</body>

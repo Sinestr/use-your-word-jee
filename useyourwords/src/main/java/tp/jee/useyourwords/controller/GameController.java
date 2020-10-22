@@ -142,7 +142,8 @@ public class GameController {
 		this.userPlayGameService.deleteUserPlayGame(this.userPlayGameService.findByUserAndGame(currentUser, game).get(0).getPlayId());
 		
 		//on décrémente le nombre de joueurs de la partie toujours existante
-		
+		game.setNbPlayers(game.getNbPlayers() - 1);
+		this.gameService.edit(game);
 		
 		return "redirect:/home/?gameleft";
 	}

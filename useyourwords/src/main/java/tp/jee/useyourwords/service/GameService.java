@@ -23,6 +23,14 @@ public class GameService {
 	 * 
 	 * @param game
 	 */
+	public void edit(Game game) {
+		this.daoGame.save(game);
+	}
+	
+	/**
+	 * 
+	 * @param game
+	 */
 	public void createroom(Game game) {
 		this.daoGame.save(game);
 	}
