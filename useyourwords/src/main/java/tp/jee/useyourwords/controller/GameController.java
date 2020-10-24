@@ -160,6 +160,10 @@ public class GameController {
 			return "redirect:/room/" + code + "?lownbplayer";
 		}
 		
+		//activer le statut de la partie
+		gameToStart.setStatus(true);
+		this.gameService.edit(gameToStart);
+		
 		return "game";
 	}
 }
