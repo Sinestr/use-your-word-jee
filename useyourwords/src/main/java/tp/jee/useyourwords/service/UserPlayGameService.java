@@ -59,8 +59,14 @@ public class UserPlayGameService {
 	 * 
 	 * @return
 	 */
+	@Transactional
 	public List<UserPlayGame> findByGame(Game game) {
-		return this.daoPlay.findByGame(game);
+		List<UserPlayGame> usersPlayGame = this.daoPlay.findByGame(game);
+		for (UserPlayGame userPlayGame : usersPlayGame) {
+			Hibernate.initialize(userPlayGame.getUser());
+		}
+				
+		return usersPlayGame;
 	}
 	
 	/**

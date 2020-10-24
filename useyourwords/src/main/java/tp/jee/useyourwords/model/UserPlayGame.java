@@ -29,7 +29,7 @@ public class UserPlayGame {
     @Column(name = "PLAY_SCORE", precision = 8)
     private int score;
     
-    @Column(name = "PLAY_HOST")
+    @Column(name = "PLAY_HOST", columnDefinition = "boolean default false")
     private boolean host;
     
     /*

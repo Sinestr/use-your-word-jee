@@ -3,6 +3,7 @@ package tp.jee.useyourwords.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import tp.jee.useyourwords.model.Game;
 import tp.jee.useyourwords.model.User;
@@ -51,20 +53,22 @@ public class GameController {
 		if (currentUserInGame.size() == 0) {
 			return "redirect:/home/?gameaccessdenied";
 		}
+		UserPlayGame currentUserPlayGame = currentUserInGame.get(0);
 		
 		//liste tous les jours d'une même partie
-		List<User> usersGame = new ArrayList<User>();
+		/*List<User> usersGame = new ArrayList<User>();
 		List<UserPlayGame> usersInGame = this.userPlayGameService.findByGame(currentGame);
 		for (UserPlayGame userPlayGame : usersInGame) {
-			usersGame.add(userPlayGame.getUser());
-		}
+			usersGame.add(this.userService.findById(userPlayGame.getUser().getId()));
+		}*/
+		
 		
 		model.addAttribute("currentGame", currentGame);
 		model.addAttribute("currentUser", currentUser);
-		model.addAttribute("currentUserPlayGame", currentUserInGame.get(0));
-		model.addAttribute("usersGame", usersGame);
+		model.addAttribute("currentUserPlayGame", currentUserPlayGame);
+		model.addAttribute("usersGame", this.userPlayGameService.findByGame(currentGame));
 		
-		return "createroom";
+		return "room";
 	}
 	
 	@PostMapping("/createroom")
@@ -146,5 +150,16 @@ public class GameController {
 		this.gameService.edit(game);
 		
 		return "redirect:/home/?gameleft";
+	}
+	
+	@PostMapping("/startGame")
+	public String startGame(@RequestParam String code, @RequestParam int gameId) {
+		Game gameToStart = this.gameService.findById(gameId);
+		
+		if (gameToStart.getNbPlayers() < 2) {
+			return "redirect:/room/" + code + "?lownbplayer";
+		}
+		
+		return "game";
 	}
 }

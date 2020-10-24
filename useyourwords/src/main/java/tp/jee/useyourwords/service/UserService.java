@@ -2,12 +2,14 @@ package tp.jee.useyourwords.service;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import tp.jee.useyourwords.dao.IUserRepository;
 import tp.jee.useyourwords.exception.UserNotFoundException;
-import tp.jee.useyourwords.model.Game;
 import tp.jee.useyourwords.model.User;
 
 @Service
@@ -29,8 +31,11 @@ public class UserService {
 	 * @param id
 	 * @return
 	 */
+	@Transactional
 	public User findById(int id) {
-		return this.daoUser.findById(id).orElseThrow(UserNotFoundException::new);
+		User user = this.daoUser.findById(id).orElseThrow(UserNotFoundException::new);
+		Hibernate.initialize(user.getContent());
+		return user;
 	}
 	
 	/**

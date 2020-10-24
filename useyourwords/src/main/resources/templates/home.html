@@ -41,7 +41,7 @@
 			<form th:if="${ currentUser != null }" th:action="@{ /joinGame }" method="post" class="form-inline">
 			  <div class="form-group mb-2">
 				<label for="code" class="sr-only">Code d'accès</label>
-		  		<input type="text" id="code" name="code" class="form-control" placeholder="Code" required>
+		  		<input type="text" id="code" name="code" class="form-control" placeholder="Code" required length="6">
 			  </div>
 			  <button type="submit" class="btn btn-primary ml-2 mb-2">REJOINDRE</button>
 			</form>

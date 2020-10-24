@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -30,6 +31,12 @@ public class UserPlayGameController {
 	@Autowired
 	private GameService gameService;
 	
+	/**
+	 * 
+	 * @param model
+	 * @param session
+	 * @return
+	 */
 	@GetMapping("/dashboard-scores")
 	public String displayTableauScores(Model model, HttpSession session) {				
 		List<UserPlayGame> plays = this.playService.findTopScores();
@@ -46,6 +53,12 @@ public class UserPlayGameController {
 		return "dashboard-scores";
 	}
 	
+	/**
+	 * 
+	 * @param code
+	 * @param session
+	 * @return
+	 */
 	@PostMapping("/joinGame")
 	public String joinGame(@RequestParam String code, HttpSession session) {		
 		List<Game> gameExist = this.gameService.findByCode(code);
@@ -67,8 +80,35 @@ public class UserPlayGameController {
 		
 		//recuperation de l'utilisateur courant connecté
 		User currentUser = this.userService.findById((int) session.getAttribute("CURRENT_USER_ID"));
-		this.playService.saveUserPlayGame(new UserPlayGame(currentUser, gameFound, false));
+		
+		List<UserPlayGame> userAlreadyExistInGame = this.playService.findByUserAndGame(currentUser, gameFound);
+		
+		if (userAlreadyExistInGame.size() == 0) {
+			this.playService.saveUserPlayGame(new UserPlayGame(currentUser, gameFound, false));
+			//on augmente de 1 le nombre de joueurs
+			gameFound.setNbPlayers(gameFound.getNbPlayers() + 1);
+			this.gameService.edit(gameFound);
+		}
 		
 		return "redirect:/room/"+code;
+	}
+	
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
+	@GetMapping("/kick/{gameId}/{userId}")
+	public String kick(@PathVariable int gameId, @PathVariable int userId) {
+		//suppression du joueur dans la partie
+		List<UserPlayGame> userPlayGame = this.playService.findByUser(this.userService.findById(userId));
+		this.playService.deleteUserPlayGame(userPlayGame.get(0).getPlayId());
+		
+		//décrémentation du nombre de joueurs dans la partie
+		Game currentGame = this.gameService.findById(gameId);
+		currentGame.setNbPlayers(currentGame.getNbPlayers() - 1);
+		this.gameService.edit(currentGame);
+		
+		return "redirect:/room/" + currentGame.getCode();
 	}
 }
