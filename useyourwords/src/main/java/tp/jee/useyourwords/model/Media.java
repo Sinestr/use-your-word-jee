@@ -38,6 +38,8 @@ public class Media {
 		inverseJoinColumns = @JoinColumn(name = "GAME_ID"))
 	private List<Game> mediaGame;
 	
+	public Media() {}
+	
 	/*
 	 * GETTERs AND SETTERS
 	 */
@@ -51,6 +53,7 @@ public class Media {
 	public void setContent(String content) { this.content = content; }
 	
 	public MediaType getMediaType() { return mediaType; }
+	public void setMediaType(MediaType mediaType) {this.mediaType = mediaType; }
 	
 	public List<Game> getMediaGame() { return mediaGame; }
 }

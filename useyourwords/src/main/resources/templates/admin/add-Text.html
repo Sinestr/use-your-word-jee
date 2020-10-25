@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta charset="ISO-8859-1">
+		<title>Ajout d'un texte à trous</title>
+		
+		<link th:href="@{/css/signin.css}" rel="stylesheet">
+		<link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+		<link th:href="@{/css/bootstrap-reboot.min.css}" rel="stylesheet">
+		<link th:href="@{/css/bootstrap-grid.min.css}" rel="stylesheet">
+	</head>
+
+	<body class="text-center d-flex flex-column" cz-shortcut-listen="true">
+		<form>
+  			<div class="form-group">
+    			<label for="exampleInputEmail1">Nouveau texte à trous</label>
+    			<input class="form-control" id="textInput" name="content" aria-describedby="le texte à compléter lors du jeu" placeholder="Contenu du texte ici">
+    			<small id="textHelp" class="form-text text-muted">Mettre des "_" pour simuler un texte à trous.</small>
+  			</div>
+  			<button th:action="/add-Text" type="submit" class="btn btn-primary">Ajouter</button>
+		</form>	
+	</body>
+</html>

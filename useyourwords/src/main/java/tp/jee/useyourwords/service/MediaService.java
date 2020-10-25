@@ -12,7 +12,6 @@ import tp.jee.useyourwords.model.MediaType;
 
 @Service
 public class MediaService {
-	private static int id = 1;
 	private List<Media> Medias;
 	
 	@Autowired
@@ -31,8 +30,8 @@ public class MediaService {
 			this.Medias = new ArrayList<>();
 		}
 		
-		media.setId(id++);
 		this.Medias.add(media);
+		this.daoMedia.save(media);
 	}
 	
 	public void clearMedias()

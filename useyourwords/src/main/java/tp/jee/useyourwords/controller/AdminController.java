@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import tp.jee.useyourwords.model.Media;
 import tp.jee.useyourwords.service.MediaService;
@@ -25,23 +27,38 @@ public class AdminController {
 
 	}
 	
-	@GetMapping("/add-Pictures")
+	@GetMapping("/display-Pictures")
 	public String displayAddPicturesInterface(Model model) {
 		model.addAttribute("Medias", this.srvMedia.findAll());
 		
-		return "admin/add-Pictures";
+		return "admin/display-Pictures";
 	}
 	
-	@GetMapping("/add-Texts")
+	@GetMapping("/display-Texts")
 	public String displayAddTextInterface(Model model) {	
 		List<Media> listMediaText = this.srvMedia.findByMediaType(this.srvMediaType.findById(2));
 		model.addAttribute("listMediaText", listMediaText);
-		return "admin/add-Texts";
+		return "admin/display-Texts";
 	}
 	
-	@GetMapping("/add-Videos")
+	@GetMapping("/add-Text")
+	public String displayAdd() {
+		return "admin/add-Text";
+	} 
+	
+	@PostMapping("/add-Text")
+	public String add(@RequestParam String content) {
+		Media media = new Media();
+		media.setMediaType(this.srvMediaType.findById(2));
+		media.setContent(content);
+		srvMedia.add(media);
+		return "display-Texts";
+	}
+	
+	
+	@GetMapping("/display-Videos")
 	public String displayAddVideoInterface() {				
-		return "admin/add-Videos";
+		return "admin/display-Videos";
 
 	}
 }

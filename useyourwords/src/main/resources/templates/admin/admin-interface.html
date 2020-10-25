@@ -1,17 +1,48 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 	<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<meta charset="ISO-8859-1">
-		<meta charset="utf-8">
-		<title>Admin menu</title>
+		<title>Menu d'administration</title>
 		
 		<link th:href="@{/css/signin.css}" rel="stylesheet">
 		<link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
 		<link th:href="@{/css/bootstrap-reboot.min.css}" rel="stylesheet">
 		<link th:href="@{/css/bootstrap-grid.min.css}" rel="stylesheet">
 	</head>
+
+	<body class="text-center d-flex justify-content-center" cz-shortcut-listen="true">
+	<div class="col-sm-3">
+	    <div class="card" style="width: 18rem;">
+  		<img class="card-img-top" th:src="@{/images/picture.png}" alt="test1">
+  				<div class="card-body">
+   				<h5 class="card-title">Images</h5>
+    			<p class="card-text">Écran de gestion des images à commenter</p>
+    	<a th:href="@{ /display-Pictures }" class="btn btn-primary">Gestion des images</a>
+  		</div>
+		</div>
+	</div>
 	
-	<body class="text-center" cz-shortcut-listen="true">
-		
+	<div class="col-sm-3">
+		<div class="card" style="width: 18rem;">
+  		<img class="card-img-top" th:src="@{/images/text.png}" alt="test2">
+  				<div class="card-body">
+   				<h5 class="card-title">Textes</h5>
+    			<p class="card-text">Écran de gestion des textes à trous</p>
+    	<a th:href="@{ /display-Texts }" class="btn btn-primary">Gestion des textes</a>
+  		</div>
+		</div>
+	</div>
+	
+	<div class="col-sm-3">
+		<div class="card" style="width: 18rem;">
+  		<img class="card-img-top" th:src="@{/images/video.png}" alt="test3">
+  				<div class="card-body">
+   				<h5 class="card-title">Vidéos</h5>
+    			<p class="card-text">Écran de gestion des vidéos à sous-titrer</p>
+    	<a th:href="@{ /display-Videos }" class="btn btn-primary">Gestion des vidéos</a>
+  		</div>
+		</div>
+	</div>
 	</body>
 </html>
