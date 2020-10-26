@@ -4,45 +4,74 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<meta charset="ISO-8859-1">
 		<title>Menu d'administration</title>
-		
-		<link th:href="@{/css/signin.css}" rel="stylesheet">
 		<link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
 		<link th:href="@{/css/bootstrap-reboot.min.css}" rel="stylesheet">
 		<link th:href="@{/css/bootstrap-grid.min.css}" rel="stylesheet">
+		
+		<link rel="canonical" href="https://getbootstrap.com/docs/4.1/examples/album/">
 	</head>
 
-	<body class="text-center d-flex justify-content-center" cz-shortcut-listen="true">
-	<div class="col-sm-3">
-	    <div class="card" style="width: 18rem;">
-  		<img class="card-img-top" th:src="@{/images/picture.png}" alt="test1">
-  				<div class="card-body">
-   				<h5 class="card-title">Images</h5>
-    			<p class="card-text">Écran de gestion des images à commenter</p>
-    	<a th:href="@{ /display-Pictures }" class="btn btn-primary">Gestion des images</a>
-  		</div>
-		</div>
-	</div>
-	
-	<div class="col-sm-3">
-		<div class="card" style="width: 18rem;">
-  		<img class="card-img-top" th:src="@{/images/text.png}" alt="test2">
-  				<div class="card-body">
-   				<h5 class="card-title">Textes</h5>
-    			<p class="card-text">Écran de gestion des textes à trous</p>
-    	<a th:href="@{ /display-Texts }" class="btn btn-primary">Gestion des textes</a>
-  		</div>
-		</div>
-	</div>
-	
-	<div class="col-sm-3">
-		<div class="card" style="width: 18rem;">
-  		<img class="card-img-top" th:src="@{/images/video.png}" alt="test3">
-  				<div class="card-body">
-   				<h5 class="card-title">Vidéos</h5>
-    			<p class="card-text">Écran de gestion des vidéos à sous-titrer</p>
-    	<a th:href="@{ /display-Videos }" class="btn btn-primary">Gestion des vidéos</a>
-  		</div>
-		</div>
-	</div>
+	<body cz-shortcut-listen="true">
+		<main role="main">
+		
+			<section class="jumbotron text-center">
+			  <div class="container">
+			    <h1 class="jumbotron-heading">Interface d'administration</h1>
+			  </div>
+			</section>
+			
+			<div class="album py-5 bg-light">
+		        <div class="container">
+		          <div class="row">
+		            
+		            <div class="col-md-4">
+		              <div class="card mb-4 shadow-sm">
+		                <img class="rounded mx-auto d-block" th:src="@{/images/picture.png}" alt="image" width="150" height="150">
+		                <div class="card-body">
+		                  <h5 class="card-title">Images</h5>
+		                  <p class="card-text">Écran de gestion des images à commenter</p>
+		                  <div class="d-flex justify-content-between align-items-center">
+		                    <div class="btn-group text-center">   
+		    					<a th:href="@{ /display-Pictures }" class="btn btn-primary">Gestion des images</a>
+		                    </div>
+		                  </div>
+		                </div>
+		              </div>
+		            </div>
+		            
+		            <div class="col-md-4">
+		              <div class="card mb-4 shadow-sm">
+		                <img class="rounded mx-auto d-block" th:src="@{/images/text.png}" alt="image" width="150" height="150">
+		                <div class="card-body">
+		                  <h5 class="card-title">Textes</h5>
+		    			  <p class="card-text">Écran de gestion des textes à trous</p>
+		                  <div class="d-flex justify-content-between align-items-center">
+		                    <div class="btn-group text-center">   
+		    					<a th:href="@{ /display-Texts }" class="btn btn-primary">Gestion des textes</a>
+		                    </div>
+		                  </div>
+		                </div>
+		              </div>
+		            </div>
+		            
+		            <div class="col-md-4">
+		              <div class="card mb-4 shadow-sm">
+		                <img class="rounded mx-auto d-block" th:src="@{/images/video.png}" alt="image" width="150" height="150">
+		                <div class="card-body">
+		   				  <h5 class="card-title">Vidéos</h5>
+		    			  <p class="card-text">Écran de gestion des vidéos à sous-titrer</p>
+		                  <div class="d-flex justify-content-between align-items-center">
+		                    <div class="btn-group text-center">   
+		    					<a th:href="@{ /display-Videos }" class="btn btn-primary">Gestion des vidéos</a>
+		                    </div>
+		                  </div>
+		                </div>
+		              </div>
+		            </div>
+		            
+		          </div>
+		        </div>
+		    </div>
+		</main>
 	</body>
 </html>

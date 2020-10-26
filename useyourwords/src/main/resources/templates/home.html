@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 	<head>
-		<meta charset="ISO-8859-1">
-		<meta charset="utf-8">
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		
 		<title>Accueil</title>
@@ -35,12 +33,12 @@
 		    	</div>
 			</div>	
 		    
-		 	<!-- Si un utilisateur est connecté on lui adresse un message de bienvenue -->	
-		 	<h3 th:if="${ currentUser != null }" class="">Envie de jouer [[ ${ currentUser.pseudo } ]] ?</h3>
+		 	<!-- Si un utilisateur est connectÃ© on lui adresse un message de bienvenue -->	
+		 	<h3 th:if="${ currentUser != null }">Envie de jouer [[ ${ currentUser.pseudo } ]] ?</h3>
 			
 			<form th:if="${ currentUser != null }" th:action="@{ /joinGame }" method="post" class="form-inline">
 			  <div class="form-group mb-2">
-				<label for="code" class="sr-only">Code d'accès</label>
+				<label for="code" class="sr-only">Code d'accÃ¨s</label>
 		  		<input type="text" id="code" name="code" class="form-control" placeholder="Code" required length="6">
 			  </div>
 			  <button type="submit" class="btn btn-primary ml-2 mb-2">REJOINDRE</button>
@@ -48,6 +46,14 @@
 			
 			<form th:if="${ currentUser != null }" th:action="@{ /createroom }" method="post">
           		<button type="submit" class="btn btn-lg btn-primary btn-block mt-4 mb-4">CREER UNE PARTIE</button>
+			</form>
+	
+			<form th:if="${ gameUserCode != null }" th:action="@{ /joinGame }" method="post">
+				<p class="text-center">Vous avez une partie en cours, voulez-vous la rejoindre avant qu'elle ne soit dÃ©marrÃ©e sans vous ?</p>
+				<input type="text" name="code" th:value="${ gameUserCode }" required hidden>
+				<button type="submit" class="btn btn-lg btn-primary btn-block mt-2 mb-2">
+					REJOINDRE
+			  	</button>
 			</form>
 	
 			<a th:if="${ currentUser == null }" th:href="@{ /login }" class="btn btn-lg btn-primary btn-block mb-2">
@@ -59,15 +65,15 @@
 			</a>
 		    
 		    <!-- Success messages -->
-			<div th:if="${param.loginsuccess != null}" class="alert alert-success mt-4" role="alert">Vous êtes désormais connecté !</div>
-		    <div th:if="${param.gamedeleted != null}" class="alert alert-success mt-4 mb-4" role="alert">Partie supprimée avec succès !</div>
-		    <div th:if="${param.gameleft != null}" class="alert alert-success mt-4 mb-4" role="alert"> Vous avez quitté la partie avec succès !</div>
+			<div th:if="${param.loginsuccess != null}" class="alert alert-success mt-4" role="alert">Vous Ãªtes dÃ©sormais connectÃ© !</div>
+		    <div th:if="${param.gamedeleted != null}" class="alert alert-success mt-4 mb-4" role="alert">Partie supprimÃ©e avec succÃ¨s !</div>
+		    <div th:if="${param.gameleft != null}" class="alert alert-success mt-4 mb-4" role="alert"> Vous avez quittÃ© la partie avec succÃ¨s !</div>
 		    
 			<!-- Error messages -->
-			<div th:if="${param.cannotplay != null}" class="alert alert-danger mt-4 mb-4" role="alert">Impossible de jouer sans être connecté !</div>
-		    <div th:if="${param.gamenotexist != null}" class="alert alert-danger mt-4 mb-4" role="alert">La partie que vous avez essayé de rejoindre n'existe pas !</div>
-		    <div th:if="${param.gameaccessdenied != null}" class="alert alert-danger mt-4 mb-4" role="alert">Vous n'avez pas accès à la partie !</div>
-		    <div th:if="${param.gamealreadystarted != null}" class="alert alert-danger mt-4 mb-4" role="alert">La partie est en cours ou est terminée !</div>
+			<div th:if="${param.cannotplay != null}" class="alert alert-danger mt-4 mb-4" role="alert">Impossible de jouer sans Ãªtre connectÃ© !</div>
+		    <div th:if="${param.gamenotexist != null}" class="alert alert-danger mt-4 mb-4" role="alert">La partie que vous avez essayÃ© de rejoindre n'existe pas !</div>
+		    <div th:if="${param.gameaccessdenied != null}" class="alert alert-danger mt-4 mb-4" role="alert">Vous n'avez pas accÃ¨s Ã  la partie !</div>
+		    <div th:if="${param.gamealreadystarted != null}" class="alert alert-danger mt-4 mb-4" role="alert">La partie est en cours ou est terminÃ©e !</div>
 
 		 	<p class="mt-5 mb-3 text-muted">par Adam PLET & Tangi GREFFIER</p>
 		</div>

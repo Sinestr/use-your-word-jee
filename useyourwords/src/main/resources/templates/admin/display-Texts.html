@@ -4,24 +4,46 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<title>Liste des textes à trous</title>
 		
-		<link th:href="@{/css/signin.css}" rel="stylesheet">
 		<link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
 		<link th:href="@{/css/bootstrap-reboot.min.css}" rel="stylesheet">
 		<link th:href="@{/css/bootstrap-grid.min.css}" rel="stylesheet">
+		
+		<link rel="canonical" href="https://getbootstrap.com/docs/4.1/examples/album/">
 	</head>
 
 	<body class="text-center d-flex flex-column" cz-shortcut-listen="true">
-		<a th:href="@{ /add-Text }" type="button" class="btn btn-primary btn-lg btn-block">Ajouter un texte</a>
-		</br>
-		<div class="card"  th:each="text: ${ listMediaText }">
-  			<div class="card-header">
-    			[[ ${ text.id } ]]
-  			</div>
-  			<div class="card-body">
-    			<blockquote class="blockquote mb-0">
-      				<p>[[ ${ text.content } ]]</p>
-    			</blockquote>
-  			</div>
-		</div>		
+		<div class="container">
+		
+			<section class="jumbotron text-center">
+			  <div class="container">
+			    <h1 class="jumbotron-heading">Gestion des vidéos</h1>
+			    <p>
+			      <a th:href="@{ /add-Text }" class="btn btn-primary my-2">Ajouter un texte</a>
+			      <a th:href="@{ /admin-interface }" class="btn btn-secondary my-2">Retour à l'interce d'administration</a>
+			    </p>
+	        	
+	        	<div th:if="${param.deletesuccess != null}" class="alert alert-success mt-4" role="alert">Le text a bien été supprimé !</div>
+			  </div>
+			</section>
+			
+			<div th:if="${ listMediaText == null }" class="alert alert-warning" role="alert">
+			  Aucun texte à trou n'a encore été ajouté !
+			</div>
+			
+			<div class="row" th:if="${ listMediaText != null }" th:each="text: ${ listMediaText }">
+				<div class="card">
+		  			<div class="card-header">
+		    			[[ ${ text.id } ]]
+		  			</div>
+		  			<div class="card-body">
+		    			<blockquote class="blockquote mb-0">
+		      				<p>[[ ${ text.content } ]]</p>
+		    			</blockquote>
+		  				<a th:href="@{ /deleteText/{id}(id=${ text.id }) }" class="btn btn-sm btn-outline-danger">Supprimer</a>
+		  			</div>
+				</div>	
+			</div>
+		</div>
+			
 	</body>
 </html>

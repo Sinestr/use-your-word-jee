@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta charset="ISO-8859-1">
+		<title>Ajout d'une image</title>
+		
+		<link th:href="@{/css/signin.css}" rel="stylesheet">
+		<link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+		<link th:href="@{/css/bootstrap-reboot.min.css}" rel="stylesheet">
+		<link th:href="@{/css/bootstrap-grid.min.css}" rel="stylesheet">
+	</head>
+
+	<body class="text-center d-flex flex-column" cz-shortcut-listen="true">
+		<div class="container">
+			<form th:action="@{/add-Picture}" method="post" enctype="multipart/form-data">
+	  			<div class="form-group">
+				    <label for="path">Choisissez une image</label>
+				    <input type="file" class="form-control-file" id="path" name="path" required>
+				 </div>
+				  
+	  			<button type="submit" class="btn btn-primary">Ajouter</button>
+	  			
+			</form>	
+			
+			<a th:href="@{ /display-Pictures }" class="btn btn btn-outline-secondary mt-3">
+				Voir toutes les images
+			</a>
+			
+			<div th:if="${ param.imageAdded != null }" class="alert alert-success mt-4" role="alert">L'image a bien été ajoutée aux médias !</div>
+			<div th:if="${ param.wrongFormat != null }" class="alert alert-danger mt-4" role="alert">Le fichier n'est pas une image supportée !</div>
+			<div th:if="${param.mediaalreadyexist != null}" class="alert alert-danger mt-4" role="alert">L'image existe déjà !</div>
+		
+		</div>
+	</body>
+</html>

@@ -1,17 +1,63 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 	<head>
-		<meta charset="ISO-8859-1">
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />charset="utf-8">
-		<title>Ajout de vid�os</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<title>Admin Vidéos</title>
 		
-		<link th:href="@{/css/signin.css}" rel="stylesheet">
 		<link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
 		<link th:href="@{/css/bootstrap-reboot.min.css}" rel="stylesheet">
 		<link th:href="@{/css/bootstrap-grid.min.css}" rel="stylesheet">
+		<link rel="canonical" href="https://getbootstrap.com/docs/4.1/examples/album/">
 	</head>
 
-	<body class="text-center" cz-shortcut-listen="true">
-	
+	<body cz-shortcut-listen="true">
+		<main role="main">
+		
+			<section class="jumbotron text-center">
+			  <div class="container">
+			    <h1 class="jumbotron-heading">Gestion des vidéos</h1>
+			    <p>
+			      <a th:href="@{ /add-Video }" class="btn btn-primary my-2">Ajouter une vidéo</a>
+			      <a th:href="@{ /admin-interface }" class="btn btn-secondary my-2">Retour à l'interce d'administration</a>
+			    </p>
+	        	
+	        	<div th:if="${param.deletesuccess != null}" class="alert alert-success mt-4" role="alert">La vidéo a bien été supprimée !</div>
+			  </div>
+			</section>
+		
+		
+			<div class="album py-5 bg-light">
+		        <div class="container">
+			      <div class="row" th:if="${ listMediaVideos == null }">
+		        	<div  class="alert alert-warning btn-block text-center" role="alert">
+						Aucune vidéo n'a encore été ajoutée !
+					</div>
+		          </div>
+		        
+		          <div class="row" th:if="${ listMediaVideos != null }">
+		          
+		            <div class="col-md-4" th:each="video: ${ listMediaVideos }">
+		              <div class="card mb-4 shadow-sm">
+		                <video class="card-img-top" controls width="250">
+						    <source th:src="@{ /images/uploads/videos/{name}(name=${ video.name }) }"
+						            type="video/webm">
+						</video>
+		                
+		                <div class="card-body">
+		                  <p class="card-text">[[ ${ video.name } ]]</p>
+		                  <div class="d-flex justify-content-between align-items-center">
+		                    <div class="btn-group text-center">
+		                      <a th:href="@{ /deleteVideo/{id}(id=${ video.id }) }" class="btn btn-sm btn-outline-danger">Supprimer</a>
+		                    </div>
+		                  </div>
+		                </div>
+		              </div>
+		            </div>
+		            
+		          </div>
+		        </div>
+		    </div>
+			
+		</main>
 	</body>
 </html>

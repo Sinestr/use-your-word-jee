@@ -33,6 +33,14 @@ public class GameController {
 	@Autowired
 	private UserPlayGameService userPlayGameService;
 	
+	/**
+	 * Controller vient rediriger vers une salle d'attente avant le lancement d'une partie
+	 * Plusieurs conditions sont à respecter pour pouvoir avoir accès à une salle d'attente
+	 * @param code
+	 * @param model
+	 * @param session
+	 * @return
+	 */
 	@GetMapping("/room/{code}")
 	public String createroom(@PathVariable String code, Model model, HttpSession session) {
 		List<Game> gameFound = this.gameService.findByCode(code);
@@ -71,6 +79,11 @@ public class GameController {
 		return "room";
 	}
 	
+	/**
+	 * Exécution du formulaire qui permet de créer une partie
+	 * @param session
+	 * @return
+	 */
 	@PostMapping("/createroom")
 	public String createroom(HttpSession session) {
 		if (session.getAttribute("CURRENT_USER_ID") == null) {
@@ -152,6 +165,12 @@ public class GameController {
 		return "redirect:/home/?gameleft";
 	}
 	
+	/**
+	 * Exécution du formulaire pour lancer une partie créée
+	 * @param code
+	 * @param gameId
+	 * @return
+	 */
 	@PostMapping("/startGame")
 	public String startGame(@RequestParam String code, @RequestParam int gameId) {
 		Game gameToStart = this.gameService.findById(gameId);

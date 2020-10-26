@@ -20,6 +20,12 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
+	/**
+	 * Page de connexion avec une vérificationde session
+	 * pour savoir si un utilisateur est déjà connecté ou non
+	 * @param session
+	 * @return
+	 */
 	@GetMapping("/login")
 	public String login(HttpSession session) {
 		//test if a user is already connected or not
@@ -29,6 +35,13 @@ public class UserController {
 		return "login";
 	}
 	
+	/**
+	 * Exécution 
+	 * @param login
+	 * @param password
+	 * @param request
+	 * @return
+	 */
 	@PostMapping("/login")
 	public String login(@RequestParam String login, @RequestParam String password, HttpServletRequest request) {
 		String redirectionOption = "redirect:./home";

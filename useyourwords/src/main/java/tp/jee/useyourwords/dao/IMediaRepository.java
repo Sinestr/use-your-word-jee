@@ -9,4 +9,5 @@ import tp.jee.useyourwords.model.MediaType;
 
 public interface IMediaRepository extends JpaRepository<Media, Integer> {
 	public List<Media> findByMediaType(MediaType mediaType);
+	public List<Media> findByName(String name);
 }

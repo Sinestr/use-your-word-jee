@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta charset="ISO-8859-1">
+		<title>Ajout d'une vidéo</title>
+		
+		<link th:href="@{/css/signin.css}" rel="stylesheet">
+		<link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+		<link th:href="@{/css/bootstrap-reboot.min.css}" rel="stylesheet">
+		<link th:href="@{/css/bootstrap-grid.min.css}" rel="stylesheet">
+	</head>
+
+	<body class="text-center d-flex flex-column" cz-shortcut-listen="true">
+		<div class="container">
+			<form th:action="@{ /add-Video }" method="post" enctype="multipart/form-data">
+	  			<div class="form-group">
+				    <label for="path">Choisissez une vidéo</label>
+				    <input type="file" class="form-control-file" id="path" name="path">
+				 </div>
+				  
+	  			<button type="submit" class="btn btn-primary">Ajouter</button>
+	  			
+			</form>	
+			
+			<a th:href="@{ /display-Videos }" class="btn btn btn-outline-secondary mt-3">
+				Voir toutes les videos
+			</a>
+			
+			<div th:if="${ param.videoAdded != null }" class="alert alert-success mt-4" role="alert">La vidéo a bien été ajoutée aux médias !</div>
+			<div th:if="${ param.wrongFormat != null }" class="alert alert-danger mt-4" role="alert">Le fichier n'est pas une vidéo ou pas supportée supportée !</div>
+			<div th:if="${param.mediaalreadyexist != null}" class="alert alert-danger mt-4" role="alert">La vidéo existe déjà !</div>
+		</div>
+	</body>
+</html>

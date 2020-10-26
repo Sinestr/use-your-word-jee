@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 	<head>
-		<meta charset="ISO-8859-1">
-		<meta charset="utf-8">
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		
 		<title>Inscription</title>
@@ -33,19 +31,19 @@
 		  <button class="btn btn-lg btn-primary btn-block" type="submit">S'INSCRIRE</button>
 		  
 		  <a th:href="@{ /login }" class="btn btn-lg btn btn-outline-secondary btn-block">
-	      	Retour à la connexion
+	      	Retour Ã  la connexion
 	      </a>
 		  
 		  <div th:if="${param.success != null}" class="alert alert-success mt-4" role="alert"> 
-		  	Votre compte a été créé avec succès ! 
+		  	Votre compte a Ã©tÃ© crÃ©Ã© avec succÃ¨s ! 
 		  </div>
 		  
 		  <div th:if="${param.loginexist != null}" class="alert alert-danger mt-4" role="alert"> 
-		  	Compte déjà existant, veuillez changer de login ! 
+		  	Compte dÃ©jÃ  existant, veuillez changer de login ! 
 		  </div>
 		  
 		  <div th:if="${param.error != null}" class="alert alert-danger mt-4" role="alert"> 
-		  	Erreur lors de l'inscription, veuillez réessayer ultérieurement ! 
+		  	Erreur lors de l'inscription, veuillez rÃ©essayer ultÃ©rieurement ! 
 		  </div>
 		  
 		  <p class="mt-4 mb-3 text-muted">par Adam PLET & Tangi GREFFIER</p>

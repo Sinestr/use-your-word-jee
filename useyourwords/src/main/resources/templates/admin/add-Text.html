@@ -12,13 +12,22 @@
 	</head>
 
 	<body class="text-center d-flex flex-column" cz-shortcut-listen="true">
-		<form>
-  			<div class="form-group">
-    			<label for="exampleInputEmail1">Nouveau texte à trous</label>
-    			<input class="form-control" id="textInput" name="content" aria-describedby="le texte à compléter lors du jeu" placeholder="Contenu du texte ici">
-    			<small id="textHelp" class="form-text text-muted">Mettre des "_" pour simuler un texte à trous.</small>
-  			</div>
-  			<button th:action="/add-Text" type="submit" class="btn btn-primary">Ajouter</button>
-		</form>	
+		<div class="container">
+			<form th:action="@{ /add-Text }" method="post">
+	  			<div class="form-group">
+	    			<label for="content">Nouveau texte à trous</label>
+	    			<textarea class="form-control" id="content" name="content" placeholder="Contenu du texte ici" rows="3" required></textarea>
+	    			<small class="form-text text-muted">Mettre des "_" pour simuler un texte à trous.</small>
+	  			</div>
+	  			<button type="submit" class="btn btn-primary">Ajouter</button>
+	  			
+			</form>	
+			
+			<a th:href="@{ /display-Texts }" class="btn btn btn-outline-secondary mt-3">
+				Voir tous les textes
+			</a>
+			
+			<div th:if="${ param.textAdded != null }" class="alert alert-success mt-4" role="alert">Le texte a bien été ajouté aux médias !</div>
+		</div>
 	</body>
 </html>
