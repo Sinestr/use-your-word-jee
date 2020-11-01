@@ -11,7 +11,7 @@ import tp.jee.useyourwords.model.UserPlayGame;
 
 public interface IUserPlayGameRepository extends JpaRepository<UserPlayGame, Integer> {
 	
-	@Query(value = "SELECT * FROM play p ORDER BY p.PLAY_SCORE DESC LIMIT 10", nativeQuery = true)
+	@Query(value = "SELECT * FROM play ORDER BY play.PLAY_SCORE DESC LIMIT 10", nativeQuery = true)
 	public List<UserPlayGame> findTopScores();
 	
 	public List<UserPlayGame> findByGame(Game game);

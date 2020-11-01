@@ -32,8 +32,17 @@ public class Game {
 	@Column(name="GAME_CREATED_AT")
 	private LocalDateTime created_at;
 	
+	/**
+	 * partie lancée ou non
+	 */
 	@Column(name="GAME_STATUS")
 	private boolean status;
+	
+	/**
+	 * partie en mode équipe ou chacun pour soi
+	 */
+	@Column(name="GAME_TEAM")
+	private boolean team;
 	
 	@OneToMany(mappedBy = "game")
     private List<UserPlayGame> plays;
@@ -49,11 +58,12 @@ public class Game {
 	 */
 	public Game() {}
 	
-	public Game(String code) {
+	public Game(String code, boolean team) {
 		this.nbPlayers = 1;
 		this.code = code;
 		this.created_at = LocalDateTime.now();
 		this.status = false;
+		this.team = team;
 	}
 	
 	
@@ -78,5 +88,8 @@ public class Game {
 
 	public boolean isStatus() { return status; }
 	public void setStatus(boolean status) { this.status = status; }
+
+	public boolean isTeam() { return team; }
+	public void setTeam(boolean team) { this.team = team; }
 	
 }

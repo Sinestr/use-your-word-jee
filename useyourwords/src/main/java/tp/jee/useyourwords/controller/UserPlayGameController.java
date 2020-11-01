@@ -1,5 +1,6 @@
 package tp.jee.useyourwords.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -38,12 +39,16 @@ public class UserPlayGameController {
 	 * @return
 	 */
 	@GetMapping("/dashboard-scores")
-	public String displayTableauScores(Model model, HttpSession session) {				
-		List<UserPlayGame> plays = this.playService.findTopScores();
+	public String displayTableauScores(Model model, HttpSession session) {		
 		
-		model.addAttribute("scores", plays);
-		model.addAttribute("countScores", plays.size());
-		
+		if (this.playService.findTopScores() == null || this.playService.findTopScores().size() == 0) {
+			model.addAttribute("countScores", 0);
+			model.addAttribute("scores", null);
+		} else {
+			model.addAttribute("countScores", this.playService.findTopScores().size());
+			model.addAttribute("scores", this.playService.findTopScores());
+		}
+
 		if (session.getAttribute("CURRENT_USER_ID") != null) {
 			int currentUserId = (int) session.getAttribute("CURRENT_USER_ID");
 			User currentUser = this.userService.findById(currentUserId);
@@ -92,6 +97,24 @@ public class UserPlayGameController {
 		
 		return "redirect:/room/"+code;
 	}
+	
+	/**
+	 * 
+	 * @param code
+	 * @param session
+	 * @return
+	 */
+	@PostMapping("/changeTeam")
+	public String changeTeam(@RequestParam("team") int team, @RequestParam("userId") int userId, HttpSession session) {	
+		List<UserPlayGame> userPlayGame = this.playService.findByUser(this.userService.findById(userId));
+		UserPlayGame currentUserPlayGame = userPlayGame.get(0);
+		
+		currentUserPlayGame.setTeam(team);
+		this.playService.saveUserPlayGame(currentUserPlayGame);
+
+		return "redirect:/room/" + currentUserPlayGame.getGame().getCode();
+	}
+	
 	
 	/**
 	 * 

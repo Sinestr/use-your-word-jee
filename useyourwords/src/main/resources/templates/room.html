@@ -13,32 +13,61 @@
 
 	<body cz-shortcut-listen="true">
 	   <main role="main" class="container">
+	   
+		  <!-- Header Room -->
 		  <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-primary rounded shadow-sm row">
 		  	<div class="col text-center">
-			    <img class="mr-3" th:src="@{/images/logo-square.png}" alt="logo" width="100" height="100">
+			    <img th:src="@{/images/logo-square.png}" alt="logo" width="100" height="100">
 			    <div class="lh-100">
 			      <h6 class="mb-0 text-white lh-100">Use Your Words</h6>
 			      <small th:if="${ currentGame != null }">[[ ${ currentGame.code } ]]</small>
 			    </div>
 			    
+			    <!-- Game start button -->
 			    <form th:if="${ currentUserPlayGame.host == true }" th:action="@{ /startGame }" method="post">
-			    	<input type="text" name="code" th:value="${ currentGame?.code }" hidden>
-			    	<input type="text" name="gameId" th:value="${ currentGame?.id }" hidden>
+			    	<input type="text" name="code" th:value="${ currentGame?.code }" hidden="hidden">
+			    	<input type="text" name="gameId" th:value="${ currentGame?.id }" hidden="hidden">
 			    	<button type="submit" class="btn btn-primary btn-lg center-block active">LANCER LA PARTIE</button>
+			    </form>
+			    
+			    <!-- Team selection -->
+			    <form th:if="${ currentGame.team == true }" th:action="@{ /changeTeam }" method="post">
+					<div class="input-group mb-3 mt-3">			            
+			            <select class="custom-select d-block" name="team" id="team" required>
+			              <option value="1" class="bg-success">Équipe 1</option>
+			              <option value="2" class="bg-warning">Équipe 2</option>
+			              <option value="3" class="bg-info">Équipe 3</option>
+			            </select>
+			            <input type="text" id="id-game-play" name="userId" th:value="${ currentUserPlayGame.user.id }" hidden="hidden" >	
+			            <div class="input-group-append">
+				           <button type="submit" class="btn btn-secondary">Sélectionner cette équipe</button>
+				        </div>
+		        	</div>
 			    </form>
 		  	</div>
 		  </div>
 		  
 		  <!-- Error messages -->
 		  <div th:if="${param.lownbplayer != null}" class="alert alert-danger mt-4 mb-4 text-center" role="alert">Vous ne pouvez pas lancer une partie tout seul !</div>
-		
-		  <!-- Liste des joueurs de la partie -->
-		  <div class="my-3 p-3 bg-white rounded shadow-sm">
+		  <div th:if="${param.hasnoteam != null}" class="alert alert-danger mt-4 mb-4 text-center" role="alert">Au moins un joueur n'a pas d'équipe !</div>
+		  <div th:if="${param.wrongplayersinteam != null}" class="alert alert-danger mt-4 mb-4 text-center" role="alert">Vous êtes tous dans la même équipe !</div>
 		  
-		    <h6 th:if="${ currentGame != null }" class="border-bottom border-gray pb-2 mb-0">Joueurs ([[ ${ currentGame.nbPlayers } ]])</h6>
+		  <!-- Block du listing des joueurs de la partie -->
+		  <div th:if="${ currentGame != null }"  class="my-3 p-3 bg-white rounded shadow-sm">
+		  	<!-- Header du listing des joueurs -->
+		    <h6 class="border-bottom border-gray pb-2 mb-0">Joueurs ([[ ${ currentGame.nbPlayers } ]])</h6>
 		    
-		    <div th:if="${ currentGame != null }" th:each="userGame : ${ usersGame }" class="media text-muted pt-3">
-		      <svg class="bd-placeholder-img mr-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 32x32"><title>Placeholder</title><rect width="100%" height="100%" fill="#007bff"></rect><text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text></svg>
+		    <!-- Liste des joueurs de la partie -->
+		    <div th:each="userGame : ${ usersGame }" class="media text-muted pt-3">
+		      <!-- Team color -->
+		      <svg class="bd-placeholder-img mr-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 32x32">
+			      <title>Couleur de l'équipe</title>
+			      <rect th:if="${ userGame.team == 0 }" width="100%" height="100%" fill="#6c757d"></rect>
+			      <rect th:if="${ userGame.team == 1 }" width="100%" height="100%" fill="#28a745"></rect>
+			      <rect th:if="${ userGame.team == 2 }" width="100%" height="100%" fill="#ffc107"></rect>
+			      <rect th:if="${ userGame.team == 3 }" width="100%" height="100%" fill="#17a2b8"></rect>
+		      </svg>
+		      
 		      <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
 		        <div class="d-flex justify-content-between align-items-center w-100">
 		          <strong class="text-gray-dark">[[ ${ userGame.user.pseudo } ]] 
@@ -53,6 +82,7 @@
 		      </div>
 		    </div>
 		    
+		    <!-- Footer du listing des joueurs -->
 		    <small th:if="${ currentGame != null }" class="d-block text-right mt-3">
 		      <a th:if="${ currentUserPlayGame.host == true }" th:href="@{ /cancelgame/{id}(id=${ currentGame.id }) }" class="btn btn-danger">ANNULER LA PARTIE</a>
 		      <a th:if="${ currentUserPlayGame.host == false }" th:href="@{ /leaveroom/{id}(id=${ currentGame.id }) }" class="btn btn-danger">QUITTER LA PARTIE</a>

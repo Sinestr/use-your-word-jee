@@ -23,6 +23,9 @@ public class Media {
 	@Column(name="MEDIA_ID")
 	private int id;
 	
+	@Column(name="MEDIA_TITLE", length=255, nullable = true)
+	private String title;
+	
 	@Lob
 	@Column(name="MEDIA_PATH", length=500, nullable = true)
 	private byte[] path;
@@ -32,10 +35,6 @@ public class Media {
 	
 	@Column(name="MEDIA_NAME", length=255, nullable = true)
 	private String name;
-	
-	@ManyToOne
-	@JoinColumn(name = "MEDIA_TYPE_ID")
-	private MediaType mediaType;
 	
 	@ManyToMany
 	@JoinTable(name = "constitute", 
@@ -48,11 +47,11 @@ public class Media {
 	 */
 	public Media() {}
 	
-	public Media(byte[] path, String name, String content, MediaType mediaType) {
+	public Media(String title, byte[] path, String name, String content) {
+		this.title = title;
 		this.path = path;
-		this.setName(name);
+		this.name = name;
 		this.content = content;
-		this.mediaType = mediaType;
 	}
 	
 	/*
@@ -61,22 +60,18 @@ public class Media {
 	public int getId() { return id; }
 	public void setId(int id) { this.id = id; }
 	
+	public String getTitle() { return title; }
+	public void setTitle(String title) { this.title = title; }
+	
 	public byte[] getPath() { return path; }
 	public void setPath(byte[] path) { this.path = path; }
 	
 	public String getContent() { return content; }
 	public void setContent(String content) { this.content = content; }
 	
-	public MediaType getMediaType() { return mediaType; }
-	public void setMediaType(MediaType mediaType) {this.mediaType = mediaType; }
-	
 	public List<Game> getMediaGame() { return mediaGame; }
 
-	public String getName() {
-		return name;
-	}
+	public String getName() { return name; }
+	public void setName(String name) { this.name = name; }
 
-	public void setName(String name) {
-		this.name = name;
-	}
 }

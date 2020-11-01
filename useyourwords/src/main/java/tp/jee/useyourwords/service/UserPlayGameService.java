@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import tp.jee.useyourwords.dao.IUserPlayGameRepository;
+import tp.jee.useyourwords.exception.UserPlayGameNotFoundException;
 import tp.jee.useyourwords.model.Game;
 import tp.jee.useyourwords.model.User;
 import tp.jee.useyourwords.model.UserPlayGame;
@@ -57,6 +58,15 @@ public class UserPlayGameService {
 	
 	/**
 	 * 
+	 * @param id
+	 * @return
+	 */
+	public UserPlayGame findById(int id) {
+		return this.daoPlay.findById(id).orElseThrow(UserPlayGameNotFoundException::new);
+	}
+	
+	/**
+	 * 
 	 * @return
 	 */
 	@Transactional
@@ -89,14 +99,8 @@ public class UserPlayGameService {
 	 * 
 	 * @return
 	 */
-	@Transactional
 	public List<UserPlayGame> findTopScores() {
-		List<UserPlayGame> plays = this.daoPlay.findTopScores();
-		
-		for (UserPlayGame play : plays) {
-			Hibernate.initialize(play.getUser());
-		}
-		return plays;
+		return this.daoPlay.findTopScores();
 	}
 	
 }

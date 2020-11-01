@@ -32,16 +32,29 @@ public class UserPlayGame {
     @Column(name = "PLAY_HOST", columnDefinition = "boolean default false")
     private boolean host;
     
+    @Column(name = "PLAY_TEAM", precision = 1, nullable = true)
+    private int team;
+    
     /*
 	 * CONSTRUCTS
 	 */
-	public UserPlayGame() { }
+	public UserPlayGame() {}
     
+	//constrcution d'un partie standard, chacun pour soi
 	public UserPlayGame(User user, Game game, boolean host) {
 		this.user = user;
 		this.game = game;
 		this.score = 0;
 		this.host = host;
+	}
+	
+	//constrcution d'un partie par équipe
+	public UserPlayGame(User user, Game game, boolean host, int team) {
+		this.user = user;
+		this.game = game;
+		this.score = 0;
+		this.host = host;
+		this.team = team;
 	}
 
     /*
@@ -61,4 +74,7 @@ public class UserPlayGame {
 
 	public boolean isHost() { return host; }
 	public void setHost(boolean host) { this.host = host; }
+
+	public int getTeam() { return team; }
+	public void setTeam(int team) { this.team = team; }
 }

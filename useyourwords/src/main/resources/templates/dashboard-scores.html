@@ -39,7 +39,6 @@
 
 		    <div class="row">
 		    	<h2 th:if="${ countScores == 0 }">Tableau des meilleurs scores</h2>
-				<h2 th:if="${ countScores > 0  && countScores < 10}">Tableau des [[ ${ score.score } ]] meilleurs scores</h2>
 				<h2 th:if="${ countScores > 10 }">Tableau des 10 meilleurs scores</h2>
 				
 		        <div class="table-responsive">
@@ -48,23 +47,19 @@
 					    <tr>
 					      <th>Score</th>
 					      <th>Pseudo du joueur</th>
-					      <th>Partie du</th>
 					      <th>Nb joueurs total</th>
 					    </tr>
 					  </thead>
 					  <tbody th:if="${ scores != null }">
-					    <tr th:each="score : ${ scores }">
-					      <td>[[ ${ score.score } ]]</td>
-					      <td>Lorem</td>
-					      <td>ipsum</td>
-					      <td>dolor</td>
+					    <tr th:each="userPlayGame : ${ scores }">
+					      <td>[[ ${ userPlayGame?.score } ]]</td>  
+					      <td>[[ ${ userPlayGame?.user.pseudo } ]]</td>
+					      <td>[[ ${ userPlayGame?.game.nbPlayers } ]]</td>
 					    </tr>
 					  </tbody>
 					</table>
 		          
-		          	<div th:if="${ countScores == 0 }" class="alert alert-warning" role="alert">
-					  Aucun score n'a été enregistré !
-					</div>
+		          	<div th:if="${ countScores == 0 }" class="alert alert-warning" role="alert"> Aucun score n'a été enregistré ! </div>
 		        </div>
 		    </div>
 	    </div>

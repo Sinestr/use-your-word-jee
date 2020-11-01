@@ -31,7 +31,6 @@ import org.springframework.web.multipart.MultipartFile;
 import tp.jee.useyourwords.model.Media;
 import tp.jee.useyourwords.model.User;
 import tp.jee.useyourwords.service.MediaService;
-import tp.jee.useyourwords.service.MediaTypeService;
 import tp.jee.useyourwords.service.UserService;
 
 @Controller
@@ -48,9 +47,6 @@ public class AdminController {
 	
 	@Autowired
 	private MediaService srvMedia;
-	
-	@Autowired
-	private MediaTypeService srvMediaType;
 	
 	@Autowired
 	private UserService userService;
@@ -162,7 +158,7 @@ public class AdminController {
 			return "redirect:/home";
 		}
 		
-		List<Media> listMediaImages = this.srvMedia.findByMediaType(this.srvMediaType.findById(1));
+		List<Media> listMediaImages = this.srvMedia.findByTitle("image");
 		if (listMediaImages.size() > 0) {
 			model.addAttribute("listMediaImages", listMediaImages);
 		}
@@ -185,6 +181,13 @@ public class AdminController {
 		return "admin/add-Picture";
 	} 
 	
+	/**
+	 * 
+	 * @param file
+	 * @param request
+	 * @param response
+	 * @return
+	 */
 	@PostMapping("/add-Picture")
 	public String addPicture(@RequestParam("path") MultipartFile file, HttpServletRequest request, HttpServletResponse response) {
 		String fileType = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".") + 1);
@@ -210,7 +213,8 @@ public class AdminController {
 				if (this.srvMedia.findByName(fileName).size() > 0) {
 					return "redirect:./add-Picture/?mediaalreadyexist";
 				}
-				Media newMedia = new Media(file.getBytes(), fileName, null, this.srvMediaType.findById(1));
+				//constrcution et ajout de d'un media de type image
+				Media newMedia = new Media("image", file.getBytes(), fileName, null);
 				this.srvMedia.add(newMedia);
 					
 			} catch (Exception e) {
@@ -224,6 +228,12 @@ public class AdminController {
 	}
 	
 	
+	/**
+	 * 
+	 * @param model
+	 * @param session
+	 * @return
+	 */
 	@GetMapping("/display-Texts")
 	public String displayAddTextInterface(Model model, HttpSession session) {	
 		if (session.getAttribute("CURRENT_USER_ID") == null) {
@@ -236,7 +246,7 @@ public class AdminController {
 			return "redirect:/home";
 		}
 		
-		List<Media> listMediaText = this.srvMedia.findByMediaType(this.srvMediaType.findById(2));
+		List<Media> listMediaText = this.srvMedia.findByTitle("text");
 		if (listMediaText.size() > 0) {
 			model.addAttribute("listMediaText", listMediaText);
 		}
@@ -244,6 +254,11 @@ public class AdminController {
 		return "admin/display-Texts";
 	}
 	
+	/**
+	 * 
+	 * @param session
+	 * @return
+	 */
 	@GetMapping("/add-Text")
 	public String addTextForm(HttpSession session) {
 		if (session.getAttribute("CURRENT_USER_ID") == null) {
@@ -259,13 +274,19 @@ public class AdminController {
 		return "admin/add-Text";
 	} 
 	
+	/**
+	 * 
+	 * @param content
+	 * @return
+	 */
 	@PostMapping("/add-Text")
 	public String addText(@RequestParam String content) {
-		Media newMedia = new Media(null, "", content, this.srvMediaType.findById(2));
+		Media newMedia = new Media("text", null, "", content);
 		this.srvMedia.add(newMedia);
 		
 		return "redirect:./add-Text/?textAdded";
 	} 
+	
 	
 	/**
 	 * 
@@ -289,7 +310,7 @@ public class AdminController {
 			return "redirect:/home";
 		}
 		
-		List<Media> listMediaVideos = this.srvMedia.findByMediaType(this.srvMediaType.findById(3));
+		List<Media> listMediaVideos = this.srvMedia.findByTitle("video");
 		if (listMediaVideos.size() > 0) {
 			model.addAttribute("listMediaVideos", listMediaVideos);
 		}
@@ -297,6 +318,11 @@ public class AdminController {
 		return "admin/display-Videos";
 	}
 	
+	/**
+	 * 
+	 * @param session
+	 * @return
+	 */
 	@GetMapping("/add-Video")
 	public String addVideo(HttpSession session) {
 		if (session.getAttribute("CURRENT_USER_ID") == null) {
@@ -312,6 +338,11 @@ public class AdminController {
 		return "admin/add-Video";
 	} 
 	
+	/**
+	 * 
+	 * @param file
+	 * @return
+	 */
 	@PostMapping("/add-Video")
 	public String addVideo(@RequestParam("path") MultipartFile file) {
 
@@ -325,7 +356,7 @@ public class AdminController {
 				}
 				
 				//null car toutes les vidéos sont trop lourdes
-				Media newMedia = new Media(null, file.getOriginalFilename(), null, this.srvMediaType.findById(3));
+				Media newMedia = new Media("video", null, file.getOriginalFilename(), null);
 				this.srvMedia.add(newMedia);
 				//Path fileNameAndPath = Paths.get(this.context.getRealPath("resources/static/images/uploads/pictures"), file.getOriginalFilename());
 

@@ -43,6 +43,13 @@ public class GameController {
 	 */
 	@GetMapping("/room/{code}")
 	public String createroom(@PathVariable String code, Model model, HttpSession session) {
+		if (session.getAttribute("CURRENT_USER_ID") == null) {
+			return "redirect:/home";
+		}
+		
+		//recuperation de l'utilisateur courant connecté
+		User currentUser = this.userService.findById((int) session.getAttribute("CURRENT_USER_ID"));
+		
 		List<Game> gameFound = this.gameService.findByCode(code);
 		//si la partie aucune partie n'est trouvée ou si on en trouve plus d'une, on redirige vers l'accueil
 		if (gameFound.size() != 1) {
@@ -55,21 +62,11 @@ public class GameController {
 			return "redirect:/home/?gamealreadystarted";
 		}
 		
-		//recuperation de l'utilisateur courant connecté
-		User currentUser = this.userService.findById((int) session.getAttribute("CURRENT_USER_ID"));
 		List<UserPlayGame> currentUserInGame = this.userPlayGameService.findByUserAndGame(currentUser, currentGame);
 		if (currentUserInGame.size() == 0) {
 			return "redirect:/home/?gameaccessdenied";
 		}
 		UserPlayGame currentUserPlayGame = currentUserInGame.get(0);
-		
-		//liste tous les jours d'une même partie
-		/*List<User> usersGame = new ArrayList<User>();
-		List<UserPlayGame> usersInGame = this.userPlayGameService.findByGame(currentGame);
-		for (UserPlayGame userPlayGame : usersInGame) {
-			usersGame.add(this.userService.findById(userPlayGame.getUser().getId()));
-		}*/
-		
 		
 		model.addAttribute("currentGame", currentGame);
 		model.addAttribute("currentUser", currentUser);
@@ -80,7 +77,8 @@ public class GameController {
 	}
 	
 	/**
-	 * Exécution du formulaire qui permet de créer une partie
+	 * Exécution du formulaire qui permet de créer une partie 
+	 * Partie en mode chacun pour soi
 	 * @param session
 	 * @return
 	 */
@@ -89,40 +87,42 @@ public class GameController {
 		if (session.getAttribute("CURRENT_USER_ID") == null) {
 			return "redirect:/home/?cannotplay";
 		} 
-		String code = this.gameService.generateCode(6);
-		
-		//évite d'avoir deux codes d'accès de partie identiques
-		List<Game> gameExist = this.gameService.findByCode(code);
-		while(gameExist.size() > 0) {
-			code = this.gameService.generateCode(6);
-			gameExist = this.gameService.findByCode(code);
-		}
 		
 		//recuperation de l'utilisateur courant connecté
 		User currentUser = this.userService.findById((int) session.getAttribute("CURRENT_USER_ID"));
 		
-		//si l'utilisateur est déjà hote d'une partie qui n'a pas démarré alors on supprime les autres salles d'attentes
-		List<UserPlayGame> userAlreadyInGame = this.userPlayGameService.findByUser(currentUser);
-		for (UserPlayGame userPlayGame : userAlreadyInGame) {
-			if (userPlayGame.isHost() == true) {
-				Game gameConcerned = userPlayGame.getGame();
-				//si la partie que le joueur a hébergé n'a pas été lancée/finie
-				if (gameConcerned.isStatus() == false) {
-					//delete all players in game
-					this.userPlayGameService.deleteAllPlayersInGame(gameConcerned);
-					//delete game
-					this.gameService.deleteGame(gameConcerned.getId());
-				}
-			}
-		}
-		
-		//génère une partie avec un code d'accès de 6 caractères UNIQUE	
-		Game newGame = new Game(code);
-		this.gameService.createroom(newGame);
+		Game newGame = this.gameService.createroom(currentUser, false);
+			
+		this.gameService.saveGame(newGame);
 		this.userPlayGameService.saveUserPlayGame(new UserPlayGame(currentUser,newGame,true));
 		
 		return "redirect:/room/" + newGame.getCode();
 	}
+	
+	/**
+	 * Exécution du formulaire qui permet de créer une partie 
+	 * Partie en mode par équipes
+	 * @param session
+	 * @return
+	 */
+	@PostMapping("/createroomteam")
+	public String createRoomTeam(HttpSession session) {
+		if (session.getAttribute("CURRENT_USER_ID") == null) {
+			return "redirect:/home/?cannotplay";
+		} 
+		
+		//recuperation de l'utilisateur courant connecté
+		User currentUser = this.userService.findById((int) session.getAttribute("CURRENT_USER_ID"));
+		
+		Game newGame = this.gameService.createroom(currentUser, true);
+			
+		this.gameService.saveGame(newGame);
+		this.userPlayGameService.saveUserPlayGame(new UserPlayGame(currentUser,newGame,true));
+		
+		return "redirect:/room/" + newGame.getCode();
+	}
+	
+	
 	
 	/**
 	 * Quand l'hote de la partie décide d'annuler une partie
@@ -177,6 +177,28 @@ public class GameController {
 		
 		if (gameToStart.getNbPlayers() < 2) {
 			return "redirect:/room/" + code + "?lownbplayer";
+		}
+		
+		
+		
+		
+		//si un des joueurs n'a pas de d'équipe
+		List<UserPlayGame> usersPlayGame = this.userPlayGameService.findByGame(gameToStart);
+		List<Integer> usersTeam = new ArrayList<Integer>();
+		
+		for (UserPlayGame userPlayGame : usersPlayGame) {
+			if (userPlayGame.getTeam() == 0 || userPlayGame.getTeam() > 3) {
+				return "redirect:/room/" + code + "?hasnoteam";
+			}
+			usersTeam.add(userPlayGame.getTeam());
+		}
+		
+		int team1 = this.gameService.countFrequencies(usersTeam, 1);
+		int team2 = this.gameService.countFrequencies(usersTeam, 2);
+		int team3 = this.gameService.countFrequencies(usersTeam, 3);
+		
+		if ((team1 == 0 && team2 == 0) || (team1 == 0 && team3 == 0) || (team2 == 0 && team3 == 0)) {
+			return "redirect:/room/" + code + "?wrongplayersinteam";
 		}
 		
 		//activer le statut de la partie

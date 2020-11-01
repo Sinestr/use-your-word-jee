@@ -13,6 +13,7 @@
 
 	<body class="text-center" cz-shortcut-listen="true">
 	   <div class="form-signin">
+	   
 	   		<div class="row mb-4">
 				<div class="col text-center"> </div>
 		      	
@@ -34,28 +35,58 @@
 			</div>	
 		    
 		 	<!-- Si un utilisateur est connecté on lui adresse un message de bienvenue -->	
-		 	<h3 th:if="${ currentUser != null }">Envie de jouer [[ ${ currentUser.pseudo } ]] ?</h3>
+			<div class="row mb-4" th:if="${ currentUser != null }">
+				<h3>Envie de jouer [[ ${ currentUser.pseudo } ]] ?</h3>
 			
-			<form th:if="${ currentUser != null }" th:action="@{ /joinGame }" method="post" class="form-inline">
-			  <div class="form-group mb-2">
-				<label for="code" class="sr-only">Code d'accès</label>
-		  		<input type="text" id="code" name="code" class="form-control" placeholder="Code" required length="6">
-			  </div>
-			  <button type="submit" class="btn btn-primary ml-2 mb-2">REJOINDRE</button>
-			</form>
+				<form th:action="@{ /joinGame }" method="post" class="form-inline">
+				  <div class="form-group mb-2">
+					<label for="code" class="sr-only">Code d'accès</label>
+			  		<input type="text" id="code" name="code" class="form-control" placeholder="Code" required length="6">
+				  </div>
+				  <button type="submit" class="btn btn-primary ml-2 mb-2">REJOINDRE</button>
+				</form>
+			</div>
 			
-			<form th:if="${ currentUser != null }" th:action="@{ /createroom }" method="post">
-          		<button type="submit" class="btn btn-lg btn-primary btn-block mt-4 mb-4">CREER UNE PARTIE</button>
-			</form>
-	
+			
+			<div class="row" th:if="${ currentUser != null }">
+				<h5>Créer une partie</h5>
+				<hr class="mt-0 w-100">	
+				
+				<div class="col">
+					<form th:action="@{ /createroom }" method="post">
+		          		<button type="submit" class="btn btn-lg btn-primary mt-1 mb-1">
+			          		<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-person-fill" fill="white" xmlns="http://www.w3.org/2000/svg">
+							  <path fill-rule="evenodd" d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+							</svg>
+		          			CHACUN POUR SOI
+		          		</button>
+					</form>
+				</div>
+				
+				<div class="col">
+					<form th:action="@{ /createroomteam }" method="post">
+		          		<button type="submit" class="btn btn-lg btn-primary mt-1 mb-1">
+		          			<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-people-fill" fill="white" xmlns="http://www.w3.org/2000/svg">
+							  <path fill-rule="evenodd" d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H7zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-5.784 6A2.238 2.238 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.325 6.325 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1h4.216zM4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/>
+							</svg>
+		          			PAR EQUIPES
+		          		</button>
+					</form>
+				</div>
+				
+				<hr class="mb-4 w-100">
+			</div>
+			
+			<!-- Rejoindre une partie en cours -->
 			<form th:if="${ gameUserCode != null }" th:action="@{ /joinGame }" method="post">
 				<p class="text-center">Vous avez une partie en cours, voulez-vous la rejoindre avant qu'elle ne soit démarrée sans vous ?</p>
 				<input type="text" name="code" th:value="${ gameUserCode }" required hidden>
 				<button type="submit" class="btn btn-lg btn-primary btn-block mt-2 mb-2">
-					REJOINDRE
+					REJOINDRE PARTIE EN COURS
 			  	</button>
 			</form>
 	
+			<!-- user not connected -->
 			<a th:if="${ currentUser == null }" th:href="@{ /login }" class="btn btn-lg btn-primary btn-block mb-2">
 				CONNEXION
 		  	</a>
@@ -75,7 +106,7 @@
 		    <div th:if="${param.gameaccessdenied != null}" class="alert alert-danger mt-4 mb-4" role="alert">Vous n'avez pas accès à la partie !</div>
 		    <div th:if="${param.gamealreadystarted != null}" class="alert alert-danger mt-4 mb-4" role="alert">La partie est en cours ou est terminée !</div>
 
-		 	<p class="mt-5 mb-3 text-muted">par Adam PLET & Tangi GREFFIER</p>
+		 	<p class="mt-4 mb-3 text-muted">par Adam PLET & Tangi GREFFIER</p>
 		</div>
 	</body>
 </html>
